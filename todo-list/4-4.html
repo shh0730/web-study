@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS기본 문법시간 3- 함수, 유용한 제공 함수들</title>
+</head>
+<body>
+    <script> 
+        //java script 주석처리 방법 : 주석처리 //, 여러줄 주석 처리 /* */
+        
+        /* 
+        function x(num1, num2){ //변수로 받아야함
+            return num1 + num2
+        }
+        let y = x(100,200) //값을 순서대로 부여 > 변수에서 순서대로 값을 받는다
+        console.log(y)
+        */
+        
+        
+        let str = "대한민국만세!"; 
+        let str2 = str.split() //문자를 배열로 split
+        console.log(str2)
+        
+        let str3 = "대-한-민-국-만-세-!";
+        let str4 = str3.split("-")
+        console.log(str4)
+
+        let str5 = str4.join("*") //구분자를 기준으로 그 배열안에 들어있는 값들을 문자열로 변경
+        console.log(str5)
+
+        console.log(str3.indexOf("한")) //문자열을 배열식으로 생각을 한 후 몇번째 글자인지 알려줌 (0번쨰 : 대, 1번쨰 : -, 2번쨰 : 한)
+        console.log(str3.indexOf("꾹")) //없는 문자를 찾으려고 할때는 -1의 값을 줌
+
+
+
+    </script>
+</body>
+</html>

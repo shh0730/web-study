@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS 기본 문법시간 2 - 조건문, 반복문</title>
+</head>
+<body>
+
+    <script> 
+    //자료형
+        let api = {
+            "page": 1,
+            "total_results": 10000,
+            "total_pages": 500,
+            "results": [
+                {
+                    "popluarity": 3130.643,
+                    "vote_count": 143,
+                    "video": false,
+                    "genre_ids": [
+                        18,
+                        878,
+                        53
+                    ],
+                    "title": "2067", //""안은 문자 의미
+                    "vote_average": 5.8
+                }
+            ]
+        }
+        
+        console.log(api.results[0].vote_count) 
+        console.log(api.results[0].video)
+        //ex) vote_count의 값이 궁금할때
+        // api.results[0] : 객체의 키값에 접근하여 순서를 잡고 (순서의 경우 []값이 1개이기 떄문에 0이 들어감)
+        //.vote_count : 최종적으로 원하는 키를 가르키면 값이 나옴 
+        // ex2) video 값이 궁금할때
+        // console.log(api.result[0].video)
+
+    //for문(반복문) if문(조건문)
+        let arr = [1,2,3,4,5,6,7];
+        for(let i=0; i <arr.length; i++){
+            
+            if(arr[i] % 2 == 0){ //짝수값만 구하고 싶을때
+                console.log(arr[i])
+            }else if(arr[i] == 2){
+
+            }else if(arr[i] == 4){
+
+            }else{
+
+            }   
+            console.log(i)
+            console.log(arr[i])
+
+            //and 연산자
+            // if(arr[i] % 2 == 0 && arr[i] == 2) &&의 왼쪽값(arr[i] % 2 == 0)과 오른쪽 값(arr[i] == 2)이 같을때만 출력하라 > 결과값 2
+            //or 연산자
+            // if(arr[i] % 2 == 0 || arr[i] == 2) ||의 왼쪽값(arr[i] % 2 == 0)과 오른쪽 값(arr[i] == 2)이 하나라도 같으면 출력하라 > 결과값 2, 4, 6
+
+            
+        }
+        // i=0 : 배열의 0번부터 돌린다 = arr 배열 값의 1부터 돌린다
+        // == 같다라는걸 검사하는 부등호
+        // 0번쨰는 1(44,45번코드), 1번째는 2(44번, 45번코드)
+    </script>
+    
+</body>
+</html>
