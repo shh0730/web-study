@@ -40,8 +40,7 @@
         </div>
     </div>
        <!-- jQuery and JS bundle w/ Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" 
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" 
     integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -55,6 +54,24 @@
             console.log(todo)
         }
         */ 
+        //4-7 웹페이지가 열리자마자 실행되게끔 데이터 준비하기
+            $(document).ready(function(){
+                console.log("시작!")
+
+                $.ajax({
+                    url:"https://api.themoviedb.org/3/movie/popular?api_key=10923b261ba94d897ac6b81148314a3f&page=1", //서버개발자가 만든 api 주소 즉 도메인주소
+                    data:{"key":"value"},
+                    type:"GET",
+                    success:function(json){
+                        console.log(json)
+                    },
+
+                    error:function(err){
+                        console.log(err)
+                    }                    
+                })
+            })
+
         //4-6
         // 이 챕터의 addTodo 함수 : 입력한 Todolist값 추가하기
         function addTodo(){
