@@ -33,7 +33,7 @@
         </div>
     </div>
 <!-- 부트스트랩 card-->
-    <div class="row row-cols-1 row-cols-md-3">
+    <div class="row row-cols-1 row-cols-md-3" id="movie-list"> <!--부모-->
         <div class="col mb-4">
           <div class="card">
             <img src="..." class="card-img-top" alt="...">
@@ -49,7 +49,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Modal title</h5>
+              <h5 class="modal-title">후기</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -58,8 +58,8 @@
               <p>Modal body text goes here.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <input type="text" class="form-control" id="review" style="width:80%"/>
+              <button type="button" class="btn btn-primary" onclick="addReview()">후기쓰기</button>
             </div>
           </div>
         </div>
@@ -68,9 +68,99 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script>  //우리가 임의로 만드는 스크립트
-        function review(){
-            $('#review-modal').modal('show');
+    let target_id = 0; // 전역변수 - 전체 스크립트 내 모든 함수에서 사용 가능한 변수
+    /*
+      서버개발자와의 대화
+
+      1. 리뷰 가져오기
+        API: http://universeapi.net/review/list?movie_id=
+
+        영화 리뷰 보기 버튼 클릭 -> 리뷰 정보 요청 API 실행과 동시에 영화 아이디 값 전달 -> 리뷰 데이터 응답으로 받고 보여주기
+
+      2. 리뷰 작성하기
+        API: http://universeapi.net/review/add
+
+        리뷰 모달창(팝업창)에서 글 작성 -> 글과 영화 아이디 서버로 전달 -> 저장 성공 응답받고 마무리
+
+    */
+
+
+        $(document).ready(function(){
+                console.log("시작!")
+
+                $.ajax({
+                    url:"https://api.themoviedb.org/3/movie/popular?api_key=10923b261ba94d897ac6b81148314a3f&page=1", //서버개발자가 만든 api 주소 즉 도메인주소
+                    data:{"key":"value"},
+                    type:"GET",
+                    success:function(json){
+                        console.log(json)
+
+                        $("#movie-list").html('')
+                        let movie_list = json.results; //movie_list 변수에 json.results 값 넣기
+
+                        for(let i=0; i<movie_list.length; i++){
+                          let card = `<div class="col mb-4">
+                                        <div class="card">
+                                          <img src="${'https://image.tmdb.org/t/p/w500/'+movie_list[i].poster_path}" class="card-img-top" alt="...">
+                                          <div class="card-body">
+                                          <h5 class="card-title">${movie_list[i].original_title}</h5>
+                                          <button type="button" class="btn btn-success" id="review-button" onclick="review(${movie_list[i].id})">리뷰보기</button>
+                                          </div>
+                                        </div>
+                                      </div>`
+
+                                      $("#movie-list").append(card)
+
+                        }
+                    },
+
+                    error:function(err){
+                        console.log(err)
+                    }                    
+                })
+            })
+
+            function review(id){
+              target_id = id 
+              $.ajax({
+                url:`http://universeapi.net/review/list?movie_id=${id}`,
+                data:{},
+                type:"GET",
+                success:function(json){
+                  console.log(json.data)
+                  let reviews = json.data; /*함수 안에서 선언된 변수를 지역변수라 하며, 선언된 함수(function review(id))에서만 사용 가능. 
+                                           선언이 된 함수(function review(id)) 외 다른 곳에서 사용 불가능*/
+                  $(".modal-body").html('')
+                  for(let i=0; i<reviews.length; i++){
+                    $(".modal-body").append(`<p>${reviews[i].review}</p>`)
+                  }
+                }
+              })
+
+              $('#review-modal').modal('show');
+           }
+
+        function addReview(){
+          let review = $("#review").val();
+          let review_html = `<p>${review}</p>`
+
+          $.ajax({
+            url:`http://universeapi.net/review/add`,
+            data:{
+              movie_id:target_id,
+              review:review
+            },
+            type:"POST", // 데이터 보내기
+            success:function(json){
+              console.log(json)
+            }
+          })
+
+          $(".modal-body").append(review_html)
+          $("#review").val(''); //내가 입력한 값을 append 후 입력한 값 삭제
+
         }
+
     </script>
 
 
